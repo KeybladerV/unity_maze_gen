@@ -1,9 +1,8 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MazeGenerator
 {
-    public class MazeScriptableObject : SerializedScriptableObject, IMaze
+    public class MazeScriptableObject : ScriptableObject, IMaze
     {
         const WallType resetWallType = WallType.Right | WallType.Left | WallType.Up | WallType.Down;
         
@@ -12,7 +11,7 @@ namespace MazeGenerator
         [SerializeField] private Vector2 _entrance;
         [SerializeField] private Vector2 _exit;
         
-        [SerializeField][TableMatrix(HorizontalTitle = "X axis", VerticalTitle = "Y axis")] private WallType[,] _maze;
+        [SerializeField] private WallType[,] _maze;
 
         public int Width => _width;
         public int Length => _length;

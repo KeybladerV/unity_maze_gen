@@ -35,5 +35,25 @@ namespace MazeGenerator
             _wallRight.gameObject.SetActive(activeWalls.HasFlag(WallType.Right));
             _wallLeft.gameObject.SetActive(activeWalls.HasFlag(WallType.Left));
         }
+
+        public void DestroyUnusedWalls()
+        {
+            if(!_wallUp.gameObject.activeSelf)
+                TryDestroy(_wallUp.gameObject);
+            if(!_wallDown.gameObject.activeSelf)
+                TryDestroy(_wallDown.gameObject);
+            if(!_wallRight.gameObject.activeSelf)
+                TryDestroy(_wallRight.gameObject);
+            if(!_wallLeft.gameObject.activeSelf)
+                TryDestroy(_wallLeft.gameObject);
+        }
+
+        private void TryDestroy(GameObject gO)
+        {
+            if(Application.isPlaying)
+                Destroy(gO);
+            else
+                DestroyImmediate(gO);
+        }
     }
 }

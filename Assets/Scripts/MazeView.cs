@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MazeGenerator
 {
@@ -21,7 +20,7 @@ namespace MazeGenerator
         [SerializeField] private MazeScriptableObject _maze;
         
         private MazeCellView[,] _cells;
-        private Vector2Int _cellsArraySize = new Vector2Int();
+        private Vector2Int _cellsArraySize = new();
 
         private GameObject _entrance;
         private GameObject _exit;
@@ -30,7 +29,6 @@ namespace MazeGenerator
 
         public void SetMaze(MazeScriptableObject maze) => _maze = maze;
 
-        [Button]
         public void DoDrawing()
         {
             if (_maze == null)
@@ -44,7 +42,7 @@ namespace MazeGenerator
             DrawMaze(_maze);
         }
 
-        private void DrawMaze(IMaze maze)
+        private void DrawMaze(IMaze maze, bool optimize = true)
         {
             for (var i = 0; i < maze.Width; i++)
             {
@@ -69,6 +67,16 @@ namespace MazeGenerator
                     _cells[i, j].SetSize(_cellSize);
                     _cells[i, j].SetState(wallType);
                     _cells[i, j].name = $"Cell_X{i}_Y{j}";
+
+                    if (optimize)
+                    {
+                        if(j < maze.Length - 1 && wallType.HasFlag(WallType.Up))
+                            maze[i, j + 1] &= ~WallType.Down;
+                        if(i < maze.Width - 1 && wallType.HasFlag(WallType.Right))
+                            maze[i + 1, j] &= ~WallType.Left;
+                        
+                        _cells[i, j].DestroyUnusedWalls();
+                    }
                 }
             }
         }
@@ -88,7 +96,6 @@ namespace MazeGenerator
             return res;
         }
 
-        [Button]
         public void Clear()
         {
             if (_cells != null)
