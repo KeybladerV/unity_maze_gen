@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 2310429365
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 18bed1e29a792ed81c35045da6edb898
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 59cf30e40d963cce516a60a51e5a6bab
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bec6a6e9945742b587b90dddb300b6da, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+Assets:
+- Assets/AssetBundles/AppLoading/LoadingScreen.prefab
+Dependencies: []

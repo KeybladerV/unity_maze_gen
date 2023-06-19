@@ -1,6 +1,6 @@
 ﻿namespace MazeGenerator
 {
-    public class PathNode
+    public sealed class PathNode
     {
         public int GCost;
         public int HCost;

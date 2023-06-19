@@ -12,6 +12,7 @@
         }
 
         #region Shorthands
+        
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int(0, 0).</para>
         /// </summary>
@@ -42,20 +43,44 @@
         /// </summary>
         public static Vector2 right => s_Right;
         
-        private static readonly Vector2 s_Zero = new Vector2(0, 0);
-        private static readonly Vector2 s_One = new Vector2(1, 1);
-        private static readonly Vector2 s_Up = new Vector2(0, 1);
-        private static readonly Vector2 s_Down = new Vector2(0, -1);
-        private static readonly Vector2 s_Left = new Vector2(-1, 0);
-        private static readonly Vector2 s_Right = new Vector2(1, 0);
+        private static readonly Vector2 s_Zero = new(0, 0);
+        private static readonly Vector2 s_One = new(1, 1);
+        private static readonly Vector2 s_Up = new(0, 1);
+        private static readonly Vector2 s_Down = new(0, -1);
+        private static readonly Vector2 s_Left = new(-1, 0);
+        private static readonly Vector2 s_Right = new(1, 0);
+        
         #endregion
 
         #region Operators Overloads
+        
         public static bool operator ==(Vector2 vec1, Vector2 vec2) => vec1.X == vec2.X && vec1.Y == vec2.Y;
         public static bool operator !=(Vector2 vec1, Vector2 vec2) => !(vec1 == vec2);
-        public static Vector2 operator +(Vector2 vec1, Vector2 vec2) => new Vector2(vec1.X + vec2.X, vec1.Y + vec2.Y);
-        public static Vector2 operator -(Vector2 vec1, Vector2 vec2) => new Vector2(vec1.X - vec2.X, vec1.Y - vec2.Y);
+        public static Vector2 operator +(Vector2 vec1, Vector2 vec2) => new(vec1.X + vec2.X, vec1.Y + vec2.Y);
+        public static Vector2 operator -(Vector2 vec1, Vector2 vec2) => new(vec1.X - vec2.X, vec1.Y - vec2.Y);
+        public static Vector2 operator *(Vector2 vec1, Vector2 vec2) => new(vec1.X * vec2.X, vec1.Y * vec2.Y);
+        public static Vector2 operator /(Vector2 vec1, Vector2 vec2) => new(vec1.X / vec2.X, vec1.Y / vec2.Y);
+        public static Vector2 operator %(Vector2 vec1, Vector2 vec2) => new(vec1.X % vec2.X, vec1.Y % vec2.Y);
+        public static Vector2 operator -(Vector2 vec) => new(-vec.X, -vec.Y);
+        public static Vector2 operator +(Vector2 vec) => new(+vec.X, +vec.Y);
+        public static Vector2 operator ++(Vector2 vec) => new(vec.X + 1, vec.Y + 1);
+        public static Vector2 operator --(Vector2 vec) => new(vec.X - 1, vec.Y - 1);
+        
+        #endregion
+
+        #region Object overrides
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Vector2 vec)
+                return this == vec;
+            return false;
+        }
+        
+        public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode();
+        public override string ToString() => "({X}, {Y})";
 
         #endregion
+        
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MazeGenerator
 {
-    public class BacktrackingGenerator : IMazeGenerator
+    public sealed class BacktrackingGenerator : IMazeGenerator
     {
         private readonly List<NeighbourCell> _neighboursCache = new(4);
         private readonly Random _random;
@@ -16,7 +16,7 @@ namespace MazeGenerator
             var opened = new Stack<Vector2>();
             var startPos = new Vector2(_random.Next(0, maze.Width), _random.Next(0, maze.Length));
 
-            maze[startPos.X, startPos.Y] |= WallType.Placed;
+            maze[startPos.X, startPos.Y] |= CellType.Placed;
             opened.Push(startPos);
 
             while (opened.Count > 0)
@@ -32,9 +32,9 @@ namespace MazeGenerator
 
                 var newPos = randomWall.Position;
 
-                maze[currentCell.X, currentCell.Y] &= ~randomWall.SharedWall;
-                maze[newPos.X, newPos.Y] &= ~randomWall.SharedWall.GetOpposite();
-                maze[newPos.X, newPos.Y] |= WallType.Placed;
+                maze[currentCell.X, currentCell.Y] &= ~randomWall.SharedCell;
+                maze[newPos.X, newPos.Y] &= ~randomWall.SharedCell.GetOpposite();
+                maze[newPos.X, newPos.Y] |= CellType.Placed;
 
                 opened.Push(newPos);
             }
@@ -56,26 +56,26 @@ namespace MazeGenerator
             _neighboursCache.Clear();
             
             if (pos.X > 0)
-                TryAddNeighbour(new Vector2(pos.X - 1, pos.Y), WallType.Left, maze);
+                TryAddNeighbour(new Vector2(pos.X - 1, pos.Y), CellType.Left, maze);
 
             if (pos.Y > 0)
-                TryAddNeighbour(new Vector2(pos.X, pos.Y - 1), WallType.Down, maze);
+                TryAddNeighbour(new Vector2(pos.X, pos.Y - 1), CellType.Down, maze);
 
             if (pos.X < width - 1)
-                TryAddNeighbour(new Vector2(pos.X + 1, pos.Y), WallType.Right, maze);
+                TryAddNeighbour(new Vector2(pos.X + 1, pos.Y), CellType.Right, maze);
 
             if (pos.Y < length - 1)
-                TryAddNeighbour(new Vector2(pos.X, pos.Y + 1), WallType.Up, maze);
+                TryAddNeighbour(new Vector2(pos.X, pos.Y + 1), CellType.Up, maze);
         }
 
-        private void TryAddNeighbour(Vector2 pos, WallType sharedWall, IMaze maze)
+        private void TryAddNeighbour(Vector2 pos, CellType sharedCell, IMaze maze)
         {
-            if (!maze[pos.X, pos.Y].HasFlag(WallType.Placed))
+            if ((maze[pos.X, pos.Y] & CellType.Placed) == 0)
             {
                 _neighboursCache.Add(new NeighbourCell()
                 {
                     Position = pos,
-                    SharedWall = sharedWall
+                    SharedCell = sharedCell
                 });
             }
         }

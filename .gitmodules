@@ -1,0 +1,9 @@
+[submodule "postmvc"]
+	path = Assets/Plugins/UnityMVC
+	url = git@github.com:build1io/postmvc.git
+[submodule "Assets/Plugins/UnityMVCApp"]
+	path = Assets/Plugins/UnityMVCApp
+	url = git@github.com:build1io/postmvc-unity-app.git
+[submodule "Assets/Plugins/AssetBundlesTool"]
+	path = Assets/Plugins/AssetBundlesTool
+	url = git@github.com:build1io/unity-asset-bundles-tool.git

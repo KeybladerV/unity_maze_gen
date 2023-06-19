@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MazeGenerator
 {
-    public class AStarPathfinder : IPathfinder
+    public sealed class AStarPathfinder : IPathfinder
     {
         public async Task<Queue<PathNode>> GetRouteAsync(IMaze maze, Vector2 startPos, Vector2 endPos)
         {
@@ -63,10 +63,7 @@ namespace MazeGenerator
                         neighbour.GCost = aGCost;
                         neighbour.HCost = CalculateDistanceCost(neighbour, endNode);
 
-                        if (!openList.Contains(neighbour))
-                        {
-                            openList.Add(neighbour);
-                        }
+                        openList.Add(neighbour);
                     }
                 }
             }
@@ -102,15 +99,8 @@ namespace MazeGenerator
                 MoveDir.Down => currentPos + Vector2.down,
                 _ => currentPos
             };
-
-            try
-            {
-                return !maze[currentPos.X, currentPos.Y].HasFlag(moveDir.ToWallType());
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
+            
+            return maze.IsValid(newPos) && (maze[currentPos.X, currentPos.Y] & moveDir.ToWallType()) == 0;
         }
 
         private List<PathNode> CalculatePath(PathNode endNode)
