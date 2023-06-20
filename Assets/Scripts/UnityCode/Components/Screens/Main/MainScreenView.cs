@@ -1,7 +1,6 @@
 ﻿using System;
 using Build1.PostMVC.Core.MVCS.Mediation;
 using Build1.PostMVC.Unity.App.Mediation;
-using Models.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

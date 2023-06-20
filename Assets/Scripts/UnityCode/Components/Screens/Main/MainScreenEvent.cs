@@ -1,6 +1,5 @@
 using Build1.PostMVC.Core.MVCS.Events;
 using MazeGenerator;
-using Models.UI;
 
 namespace Components.Screens.Main
 {

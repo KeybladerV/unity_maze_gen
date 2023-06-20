@@ -1,7 +1,10 @@
-﻿using Build1.PostMVC.Core.MVCS.Mediation;
+﻿using System.Collections;
+using Build1.PostMVC.Core.MVCS.Injection;
+using Build1.PostMVC.Core.MVCS.Mediation;
 using Build1.PostMVC.Unity.App.Mediation;
 using Components.Maze;
 using MazeGenerator;
+using UnityCode.Modules.Metrics;
 using UnityEngine;
 using Vector2 = MazeGenerator.Vector2;
 
@@ -12,6 +15,8 @@ namespace Components.Maze
     [RequireComponent(typeof(MeshRenderer))]
     public sealed class MazeView : UnityViewDispatcher
     {
+        [Inject] public IFPSController FPSController { get; set; }
+        
         [SerializeField] private float _cellSize = 1;
 
         /// <summary>Used to make cells fit each other. For default cell it's - 2f(that matches default wall scale). </summary>
@@ -30,13 +35,22 @@ namespace Components.Maze
         private GameObject _entrance;
         private GameObject _exit;
 
+        private int _cellsPerFrame = 10;
+        private int _cellsToSpawn;
+
         public void SetMaze(IMaze maze) => _maze = maze;
         public void SetCellSize(int size) => _cellSize = size;
 
         public void DrawMaze()
         {
             _cells = new MazeCellView[_maze.Width, _maze.Length];
+            _cellsToSpawn = _cellsPerFrame;
             
+            StartCoroutine(DrawMazeCoroutine());
+        }
+
+        private IEnumerator DrawMazeCoroutine()
+        {
             for (var i = 0; i < _maze.Width; i++)
             {
                 for (var j = 0; j < _maze.Length; j++)
@@ -61,7 +75,17 @@ namespace Components.Maze
                     _cells[i, j].SetState(wallType);
                     _cells[i, j].name = $"Cell_X{i}_Y{j}";
 
-                    _cells[i, j].DestroyUnusedWalls();
+                    _cellsToSpawn--;
+                    if (_cellsToSpawn <= 0)
+                    {
+                        if (FPSController.FPS < 60)
+                            _cellsPerFrame = Mathf.Max(1, _cellsPerFrame - 1);
+                        else if (FPSController.FPS > 80)
+                            _cellsPerFrame++;
+                        
+                        _cellsToSpawn = _cellsPerFrame;
+                        yield return null;
+                    }
                 }
             }
         }

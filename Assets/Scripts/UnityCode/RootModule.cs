@@ -16,6 +16,7 @@ using Modules.GameInput;
 using Modules.HUD;
 using Modules.Maze;
 using Modules.Screens.Commands;
+using UnityCode.Modules.Metrics;
 using UnityEngine;
 using AssetBundle = Modules.Assets.AssetBundle;
 using Event = Build1.PostMVC.Core.MVCS.Events.Event;
@@ -46,6 +47,7 @@ public sealed class RootModule : Module
         AddModule<CharacterModule>();
         AddModule<MazeModule>();
         AddModule<PathfindingModule>();
+        AddModule<MetricsModule>();
 
         /*
          * Initializing.

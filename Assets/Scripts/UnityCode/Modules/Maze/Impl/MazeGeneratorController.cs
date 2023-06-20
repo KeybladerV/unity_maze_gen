@@ -3,7 +3,6 @@ using Build1.PostMVC.Core.MVCS.Events;
 using Build1.PostMVC.Core.MVCS.Injection;
 using Components.Screens.Main;
 using MazeGenerator;
-using Models.UI;
 
 namespace Modules.Maze.Impl
 {

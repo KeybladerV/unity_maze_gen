@@ -36,18 +36,6 @@ namespace Components.Maze
             _wallRight.gameObject.SetActive((activeCells & CellType.Right) != 0);
             _wallLeft.gameObject.SetActive((activeCells & CellType.Left) != 0);
         }
-
-        public void DestroyUnusedWalls()
-        {
-            if(!_wallUp.gameObject.activeSelf)
-                TryDestroy(_wallUp.gameObject);
-            if(!_wallDown.gameObject.activeSelf)
-                TryDestroy(_wallDown.gameObject);
-            if(!_wallRight.gameObject.activeSelf)
-                TryDestroy(_wallRight.gameObject);
-            if(!_wallLeft.gameObject.activeSelf)
-                TryDestroy(_wallLeft.gameObject);
-        }
         
         private void AdjustWallLocalPosition(Transform wall, float size)
         {

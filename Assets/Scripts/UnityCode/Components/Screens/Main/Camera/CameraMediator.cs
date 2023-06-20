@@ -2,6 +2,7 @@ using Build1.PostMVC.Core.MVCS.Injection;
 using Build1.PostMVC.Core.MVCS.Mediation;
 using Build1.PostMVC.Unity.App.Events;
 using Build1.PostMVC.Unity.App.Mediation;
+using Components.Character;
 using DG.Tweening;
 using UnityEngine;
 
@@ -19,10 +20,15 @@ namespace Components.Screens.Game.Camera
             EventMap.Map(CameraEvents.CameraMoveTo, OnCameraMoveToEvent);
             EventMap.Map(View,CameraEvents.OnMoveComplete, OnCameraMoveComplete);
 
-            // GameCameraController is created on app start, long time before game view is added.
-            // So at this moment the default zoom level will be initialized.
+            EventMap.Map(CharacterEvents.OnCharacterCreated, TryLockOnCharacter);
+            EventMap.Map(CharacterEvents.OnCharacterPositionSet, TryLockOnCharacter);
 
             OnSettingLoadSuccess();
+        }
+
+        private void TryLockOnCharacter(Transform character)
+        {
+            View.LockOn(character);
         }
 
         [OnDestroy]
