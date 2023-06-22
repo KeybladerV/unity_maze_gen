@@ -13,6 +13,7 @@ namespace Modules.Maze
         {
             InjectionBinder.Bind<IMazeGeneratorController, MazeGeneratorController>().ConstructOnStart();
             InjectionBinder.Bind<IMazePresentationController, MazePresentationController>().ConstructOnStart();
+            InjectionBinder.Bind<IMazeController, MazeController>().ConstructOnStart();
         }
     }
 }

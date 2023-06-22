@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: app_loading
+  m_EditorClassIdentifier: 
+  m_GroupName: app_loading
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a5478cd42328f024792e79dc4399a30e
+  m_SerializeEntries:
+  - m_GUID: c4d15ef3e328d5147becf6d62f15d8ec
+    m_Address: Assets/AssetBundles/AppLoading/LoadingScreen.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 52928938ba0d6c245b14491e4772228e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ae8bc2047d7c53b40965fdd4fed2a065, type: 2}
+    - {fileID: 11400000, guid: e6986c10c2bd71e45a5117da5daa2720, type: 2}

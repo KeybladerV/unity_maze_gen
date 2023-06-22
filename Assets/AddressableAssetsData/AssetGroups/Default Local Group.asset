@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c8e99375c08ea1540b9bcee9f48dc64d
+  m_SerializeEntries:
+  - m_GUID: 98cd87169a7eea44ea816e54dc72dc4c
+    m_Address: Assets/Prefabs/Cell/MazeCellView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2a8bb34b520e8e40bba8e8e81205064
+    m_Address: Assets/Prefabs/Cell/MazePlane.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af53383d16bd8fa478c8e588a9963c91
+    m_Address: Assets/Prefabs/Cell/WallDown.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9778dd715833bc4e8dbe5554e56cd43
+    m_Address: Assets/Prefabs/Cell/WallLeft.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 914f9ea8439ca664da6c25199d703095
+    m_Address: Assets/Prefabs/Cell/WallRight.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 872136fe209107b44bac4f3b8f2940d8
+    m_Address: Assets/Prefabs/Cell/WallUp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 52928938ba0d6c245b14491e4772228e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 25bd6b3339cac394fbfc5f4f18a51a91, type: 2}
+    - {fileID: 11400000, guid: 31f50c9abe5cd594c861468208810724, type: 2}

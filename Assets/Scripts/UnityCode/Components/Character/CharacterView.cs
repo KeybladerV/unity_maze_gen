@@ -12,7 +12,7 @@ namespace Components.Character
     
     public sealed class CharacterView : UnityViewDispatcher
     {
-        public readonly Event OnMoveEnd = new Event(typeof(CharacterView), nameof(OnMoveEnd));
+        public readonly Event OnMoveEnd = new(typeof(CharacterView), nameof(OnMoveEnd));
         
         [SerializeField] private float _speed = 10;
 
@@ -39,10 +39,11 @@ namespace Components.Character
             gameObject.SetActive(isActive);
         }
         
-        public void MoveTo(Vector3 pos, bool force)
+        public void MoveTo(Vector3 pos, bool force, bool immediate)
         {
             if(_isMoving && !force)
                 return;
+            
             if (force && _moveCoroutine != null)
             {
                 StopCoroutine(_moveCoroutine);
@@ -50,6 +51,12 @@ namespace Components.Character
                 SetPosition(_targetPosition);
             }
 
+            if (immediate)
+            {
+                MoveImmediately(pos);
+                return;
+            }
+            
             _targetPosition = pos;
             _moveCoroutine = StartCoroutine(MoveTo(_targetPosition, _moveEndCallback));
         }
@@ -65,6 +72,12 @@ namespace Components.Character
             transform.position = end;
             _isMoving = false;
             onComplete?.Invoke();
+        }
+        
+        private void MoveImmediately(Vector3 end)
+        {
+            transform.position = end;
+            _isMoving = false;
         }
 
         private void MoveEndCallback() => Dispatch(OnMoveEnd);

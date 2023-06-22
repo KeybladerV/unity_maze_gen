@@ -17,9 +17,10 @@ namespace Components.Character
         [Inject] public CharacterView View { get; set; }
         [Inject] public IEventMap EventMap { get; set; }
         [Inject] public IMazePresentationController MazePresentationController { get; set; }
+        [Inject] public IMazeController MazeController { get; set; }
         [Inject] public IPathfindingController PathfindingController { get; set; }
 
-        private Vector2 _currentPos;
+        private Vector2 _currentCell;
         private Queue<PathNode> _path;
         
         private Action _movementCompleteCallback;
@@ -29,13 +30,11 @@ namespace Components.Character
         {
             _movementCompleteCallback = ProcessMoveAlongPath;
             
-            EventMap.Map(MazePresentationEvents.OnMazeDrawEnd, OnMazeDrawEnd);
+            EventMap.Map(MazeGeneratorEvents.OnMazeGenerated, OnMazeGenerated);
             EventMap.Map(MainScreenEvent.OnToCoordinates, OnToCoordinates);
             EventMap.Map(MainScreenEvent.OnToEntrance, OnToEntrance);
             EventMap.Map(MainScreenEvent.OnToExit, OnToExit);
             EventMap.Map(MainScreenEvent.OnToRandom, OnToRandom);
-
-            EventMap.Map(View, View.OnMoveEnd, OnMoveEnd);
             
             EventMap.Dispatch(CharacterEvents.OnCharacterCreated, View.transform);
         }
@@ -49,7 +48,7 @@ namespace Components.Character
         private void OnToCoordinates(Vector2 data)
         {
             EventMap.Dispatch(CharacterEvents.OnMoveSequenceStart);
-            _path = PathfindingController.FindPath(_currentPos, data, PathfindingAlgorithm.AStar);
+            _path = PathfindingController.FindPath(_currentCell, data, PathfindingAlgorithm.AStar);
             ProcessMoveAlongPath();
         }
 
@@ -57,8 +56,8 @@ namespace Components.Character
         {
             EventMap.Dispatch(CharacterEvents.OnMoveSequenceStart);
             _path = PathfindingController.FindPath(
-                _currentPos,
-                MazePresentationController.GetCellByWorldPos(MazePresentationController.GetEntrancePos()),
+                _currentCell,
+                MazeController.GetEntrance(),
                 PathfindingAlgorithm.AStar);
             ProcessMoveAlongPath();
         }
@@ -67,8 +66,8 @@ namespace Components.Character
         {
             EventMap.Dispatch(CharacterEvents.OnMoveSequenceStart);
             _path = PathfindingController.FindPath(
-                _currentPos,
-                MazePresentationController.GetCellByWorldPos(MazePresentationController.GetExitPos()),
+                _currentCell,
+                MazeController.GetExit(),
                 PathfindingAlgorithm.AStar);
             ProcessMoveAlongPath();
         }
@@ -77,16 +76,12 @@ namespace Components.Character
         {
         }
 
-        private void OnMoveEnd()
+        private void OnMazeGenerated(IMaze maze)
         {
-        }
-
-        private void OnMazeDrawEnd()
-        {
-            var entrance = MazePresentationController.GetEntrancePos();
-            _currentPos = MazePresentationController.GetCellByWorldPos(entrance);
-            View.SetPosition(MazePresentationController.GetEntrancePos());
+            _currentCell = maze.Entrance;
+            View.SetPosition(MazePresentationController.GetWorldPosByCell(_currentCell));
             
+            EventMap.Dispatch(CharacterEvents.OnCharacterCoordinatesSet, _currentCell);
             EventMap.Dispatch(CharacterEvents.OnCharacterPositionSet, View.transform);
         }
 
@@ -99,15 +94,17 @@ namespace Components.Character
             }
             
             var nextNode = _path.Dequeue();
-            if (_currentPos == nextNode.Coordinates)
+            if (_currentCell == nextNode.Coordinates)
             {
                 ProcessMoveAlongPath();
             }
             else
             {
-                _currentPos = nextNode.Coordinates;
+                _currentCell = nextNode.Coordinates;
+                EventMap.Dispatch(CharacterEvents.OnCharacterCoordinatesSet, _currentCell);
+                
                 EventMap.MapOnce(View, View.OnMoveEnd, _movementCompleteCallback);   
-                View.MoveTo(MazePresentationController.GetWorldPosByCell(_currentPos), false);
+                View.MoveTo(MazePresentationController.GetWorldPosByCell(_currentCell), false, false);
             }
         }
     }
